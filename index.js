@@ -25,6 +25,6 @@ app.use(express.static('public'));
 
 app.use('/', routes);
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000 , () => {
     console.info(' ASWANG API listening on PORT 3000');
 })
