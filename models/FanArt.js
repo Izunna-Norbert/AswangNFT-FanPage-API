@@ -5,6 +5,7 @@ const FanArtSchema = new mongoose.Schema({
     name: { type: String },
     artSrc: { type: String, required: true },
     mimetype: { type: String },
+    twitterUrl: { type: String },
 }, { timestamps: true });
 
 const FanArtModel = mongoose.model('FanArt', FanArtSchema);

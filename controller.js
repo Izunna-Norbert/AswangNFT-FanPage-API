@@ -10,6 +10,7 @@ module.exports = {
             const schema = new Joi.object({
                 name: Joi.string().required(),
                 handle: Joi.string().required(),
+                twitterUrl: Joi.string().optional()
             });
             const { error, value } = schema.validate(req.body);
             if (error) return res.status(400).json({ success: false, error: error.details[0].message, status: 400 });
@@ -34,6 +35,7 @@ module.exports = {
         try {
             const { limit = 10 , page = 1 } = req.query;
             const arts = await FanArt.find()
+                .sort({ updatedAt: -1 })
                 .skip((page - 1) * limit)
                 .limit(parseInt(limit, 10));
             const total = await FanArt.estimatedDocumentCount();
