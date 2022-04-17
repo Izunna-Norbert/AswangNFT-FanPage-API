@@ -8,7 +8,7 @@ module.exports = {
     async upload(req, res) {
         try {
             const schema = new Joi.object({
-                name: Joi.string().required(),
+                name: Joi.string().optional(),
                 handle: Joi.string().required(),
                 twitterUrl: Joi.string().optional()
             });
@@ -16,7 +16,9 @@ module.exports = {
             if (error) return res.status(400).json({ success: false, error: error.details[0].message, status: 400 });
             if (!req.file) return res.status(400).json({ success: false, error: 'Please upload your fan art', status: 400 });
             console.info(req.file);
-            const art = await FanArt.create({ mimetype: req.file.mimetype, artSrc: req.file.path, ...value });
+            const { handle, name, twitterUrl } = value;
+ 
+            const art = await FanArt.create({ mimetype: req.file.mimetype, artSrc: req.file.path, handle: handle.replace(/^(@)/,''), name, twitterUrl });
             return res.status(200).json({
                 success: true,
                 data: art,
